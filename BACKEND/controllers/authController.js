@@ -44,11 +44,87 @@ async function registerController(req, res) {
     }
 };
 
-function loginController(req, res) {};
+async function loginController(req, res) {
+     try {
+        const {email, password} = req.body;
+
+        const user = await userModel.findOne({email: email})
+
+        if(!user) {
+            return res.status(401).json({
+                status: false,
+                error: 'incorrect email or password'
+            })
+        }
+
+        const isMatch = await user.comparePassword(password);
+
+        if(!isMatch) {
+            return res.status(401).json({
+                status: false,
+                error: 'incorrect email or password'
+            })
+        }
+
+        const payload = {
+            id: user.id,
+            role: user.role
+        }
+
+        const token = generateToken(payload)
+
+        res.status(200).json({
+            success: true,
+            token: token
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            success: false,
+            error: 'Internal server error'
+        })
+    }
+};
 
 function forgotPasswordController(req, res) {};
 
-function resetPasswordController(req, res) {};
+async function resetPasswordController(req, res) {
+    try {
+        const userId = req.user.id;
+        const user = await userModel.findById(userId);
+
+        const {oldPass, newPass} = req.body;
+
+        const isMatch = await user.comparePassword(oldPass);
+
+        if(!isMatch) {
+            return res.status(400).json({
+                success: false,
+                error: 'Incorrect password'
+            })
+        }
+
+        const response = await userModel.findByIdAndUpdate(userId, {password: newPass}, {new: true});
+
+        if(!response) {
+            return res.status(403).json({
+                success: false,
+                error: 'Error changing password'
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Password changed successfully'
+        })
+    }catch (err) {
+        console.log(err)
+        res.status(500).json({
+            success: false,
+            error: 'Internal server error'
+        })
+    }
+};
 
 module.exports = {
     registerController,
