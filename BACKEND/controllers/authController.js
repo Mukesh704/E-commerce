@@ -104,7 +104,8 @@ async function resetPasswordController(req, res) {
             })
         }
 
-        const response = await userModel.findByIdAndUpdate(userId, {password: newPass}, {new: true});
+        user.password = newPass;
+        const response = await user.save();
 
         if(!response) {
             return res.status(403).json({

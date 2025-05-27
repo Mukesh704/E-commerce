@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const { createProductController, updateProductController, deleteProductController } = require('../controllers/adminProductsController');
-const { jwtAuthMiddleware } = require('../middlewares/authMiddleware')
+const { jwtAdminMiddleware } = require('../middlewares/adminMiddleware')
 
-router.post('/', jwtAuthMiddleware, createProductController);
-router.put('/:id', jwtAuthMiddleware, updateProductController);
-router.delete('/:id', jwtAuthMiddleware, deleteProductController)
+router.post('/', jwtAdminMiddleware, createProductController);
+router.put('/:id', jwtAdminMiddleware, updateProductController);
+router.delete('/:id', jwtAdminMiddleware, deleteProductController)
 
 module.exports = router;

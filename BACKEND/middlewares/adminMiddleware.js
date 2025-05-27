@@ -22,10 +22,10 @@ const jwtAdminMiddleware = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         req.user = decoded;
 
-        if(decoded.role != 'admin') {
-            return res.status(401).json({
+        if(decoded.role !== 'admin') {
+            return res.status(403).json({
                 success: false,
-                error: 'Unauthorized! only admin can access these route'
+                error: 'Forbidden: Only admins can access this route'
             })
         }
         next();

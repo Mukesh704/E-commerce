@@ -1,17 +1,7 @@
 const productModel = require('../models/productModel')
-const userModel = require('../models/userModel')
 
 async function createProductController(req, res) {
     try {
-        const userId = req.user.id;
-
-        const user = await userModel.findById(userId);
-        if(user.role != "admin") {
-            return res.status(401).json({
-                success: false,
-                error: "Unauthorized access"
-            })
-        }
             const {name, description, images, category, brand, price, stock, rating, numReviews} = req.body;
             
             if(!name || !description || !images || !category || !brand || !price) {
@@ -38,15 +28,6 @@ async function createProductController(req, res) {
 
 async function updateProductController(req, res) {
     try {
-        const userId = req.user.id;
-
-        const user = await userModel.findById(userId);
-        if(user.role != "admin") {
-            return res.status(401).json({
-                success: false,
-                error: "Unauthorized access"
-            })
-        }
         const productId = req.params.id;
         const check = await productModel.findById(productId);
         if(!check) {
@@ -75,15 +56,6 @@ async function updateProductController(req, res) {
 
 async function deleteProductController(req, res) {
     try {
-        const userId = req.user.id;
-
-        const user = await userModel.findById(userId);
-        if(user.role != "admin") {
-            return res.status(401).json({
-                success: false,
-                error: "Unauthorized access"
-            })
-        }
         const productId = req.params.id;
         const check = await productModel.findById(productId);
         if(!check) {

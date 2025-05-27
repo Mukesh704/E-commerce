@@ -14,10 +14,14 @@ const productSchema = new mongoose.Schema(
         type: String, 
         default: " "
     }],
-    category: [{
+    /*category: [{
         type: String,
         enum: ["Electronics", "Men Clothing","Women Clothing","Home & Living","Health & Beauty","Sports & Outdoors", "Toys & Games","Automotive","Books & Media","Groceries & Essentials","Office & Stationery","Pets", "Daily Needs"],
         default: "Daily Needs"
+    }],*/
+    categories: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category'
     }],
     brand: {
         type: String,
