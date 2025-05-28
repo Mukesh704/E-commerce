@@ -105,3 +105,15 @@ POST	/api/payments/checkout	    Create Stripe checkout session
 MIDDLEWARE
 authMiddleware.js:  Checks for JWT in headers
 adminMiddleware.js: Verifies admin role
+
+----------------------------------------------------------------------------------------------------------------
+
+admin credentials:
+"name: "admin"
+admin: admin@gmail.com
+password: qwerty
+
+user credentials:
+"name" : "user",
+"email": "user@gmail.com",
+"password": "qwerty"

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const { createOrderController, getOrderController, markOrderPaidController, addToWishlisttroller } = require('../controllers/orderController');
+const { createOrderController, getOrderController, markOrderPaidController, addToWishlistController } = require('../controllers/orderController');
+const { jwtAuthMiddleware } = require('../middlewares/authMiddleware')
 
-router.post('/', createOrderController);
-router.get('/:id', getOrderController);
-router.put('/:id', markOrderPaidController);
-router.put('/wishlist', addToWishlisttroller);
+router.put('/wishlist', jwtAuthMiddleware, addToWishlistController);
+router.post('/', jwtAuthMiddleware, createOrderController);
+router.get('/:id', jwtAuthMiddleware, getOrderController);
+router.put('/:id', jwtAuthMiddleware, markOrderPaidController);
 
 module.exports = router;

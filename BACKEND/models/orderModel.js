@@ -14,26 +14,31 @@ const orderSchema = new mongoose.Schema(
             ref: 'Product', 
             required: true 
         },
-        quantity: Number,
+        quantity: {
+          type: Number,
+          default: 1
+        },
         price: Number,
       },
     ],
     shippingAddress: {
-      address: String,
-      city: String,
-      postalCode: String,
-      country: String,
+      address: {
+        type: String,
+        required: true
+      },
+      postalCode: {
+        type: String,
+        required: true
+      },
+      country: {
+        type: String,
+        default: "India"
+      },
     },
     paymentMethod: {
         type: String,
         enum: ['COD', 'net-banking', 'UPI', 'credit-card', 'debit-card'],
         default: 'COD'
-    },
-    paymentResult: {
-      id: String,
-      status: String,
-      update_time: String,
-      email_address: String,
     },
     itemsPrice: Number,
     taxPrice: {
