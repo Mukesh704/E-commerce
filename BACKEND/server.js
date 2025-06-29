@@ -13,6 +13,7 @@ const adminProductRouter = require('./routes/adminProductRouter.js')
 const categoriesRouter = require('./routes/categoryRouter.js')
 const orderRouter = require('./routes/orderRouter.js')
 const adminOrderRouter = require('./routes/adminOrderRouter.js')
+const productsRouter = require('./routes/productsRouter.js')
 
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
@@ -20,6 +21,7 @@ app.use('/admin/products', adminProductRouter)
 app.use('/catogries', categoriesRouter)
 app.use('/orders', orderRouter)
 app.use('/admin/orders', adminOrderRouter)
+app.use('/products', productsRouter)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port: ${process.env.PORT}`)
