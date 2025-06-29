@@ -4,6 +4,12 @@ const app = express();
 require('dotenv').config();
 require('./db.js');
 
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+
 const bodyparser = require('body-parser')
 app.use(bodyparser.json());
 
@@ -18,7 +24,7 @@ const productsRouter = require('./routes/productsRouter.js')
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
 app.use('/admin/products', adminProductRouter)
-app.use('/catogries', categoriesRouter)
+app.use('/categories', categoriesRouter)
 app.use('/orders', orderRouter)
 app.use('/admin/orders', adminOrderRouter)
 app.use('/products', productsRouter)

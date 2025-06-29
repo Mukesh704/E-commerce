@@ -23,8 +23,8 @@ export const register = (userData) => api.post('/auth/register', userData);
 export const login = (credentials) => api.post('/auth/login', credentials);
 
 // Products
-export const getProducts = () => api.get('/admin/products');
-export const getProductById = (id) => api.get(`/admin/products/${id}`);
+export const getProducts = () => api.get('/products');
+export const getProductById = (id) => api.get(`/products/${id}`);
 
 // User
 export const getUserProfile = () => api.get('/users/me');
