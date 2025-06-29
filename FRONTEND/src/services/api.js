@@ -35,6 +35,6 @@ export const createOrder = (orderData) => api.post('/orders', orderData);
 export const getOrders = () => api.get('/users/orders');
 
 // Categories
-export const getCategories = () => api.get('/catogries');
+export const getCategories = () => api.get('/categories');
 
 export default api;

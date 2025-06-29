@@ -10,14 +10,14 @@ app.use(bodyparser.json());
 const authRouter = require('./routes/authRouter.js')
 const userRouter = require('./routes/userRouter.js')
 const adminProductRouter = require('./routes/adminProductRouter.js')
-const catogriesRouter = require('./routes/categoryRouter.js')
+const categoriesRouter = require('./routes/categoryRouter.js')
 const orderRouter = require('./routes/orderRouter.js')
 const adminOrderRouter = require('./routes/adminOrderRouter.js')
 
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
 app.use('/admin/products', adminProductRouter)
-app.use('/catogries', catogriesRouter)
+app.use('/catogries', categoriesRouter)
 app.use('/orders', orderRouter)
 app.use('/admin/orders', adminOrderRouter)
 

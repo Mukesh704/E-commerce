@@ -1,6 +1,6 @@
 const categoryModel = require('../models/categoryModel')
 
-async function allCateogiesController(req, res) {
+async function allCategoriesController(req, res) {
     try {
         const response = await categoryModel.find();
 
@@ -17,7 +17,7 @@ async function allCateogiesController(req, res) {
     }
 };
 
-async function addCatogriesController(req, res) {
+async function addCategoriesController(req, res) {
     try {
         const {name, description} = req.body;
         const check = await categoryModel.findOne({name: name});
@@ -45,6 +45,6 @@ async function addCatogriesController(req, res) {
 };
 
 module.exports = {
-    allCateogiesController,
-    addCatogriesController
+    allCategoriesController,
+    addCategoriesController
 }
