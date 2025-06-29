@@ -3,9 +3,8 @@ const router = express.Router();
 
 const { allCategoriesController, addCategoriesController } = require('../controllers/catogriesController');
 const { jwtAdminMiddleware } = require('../middlewares/adminMiddleware')
-const { jwtAuthMiddleware } = require('../middlewares/authMiddleware')
 
-router.get('/', jwtAuthMiddleware, allCategoriesController);
+router.get('/', allCategoriesController);
 router.post('/', jwtAdminMiddleware, addCategoriesController);
 
 module.exports = router;

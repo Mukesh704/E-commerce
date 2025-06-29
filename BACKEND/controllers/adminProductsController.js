@@ -2,16 +2,16 @@ const productModel = require('../models/productModel')
 
 async function createProductController(req, res) {
     try {
-            const {name, description, images, category, brand, price, stock, rating, numReviews} = req.body;
+            const {name, description, images, categories, brand, price, stock, rating, numReviews} = req.body;
             
-            if(!name || !description || !images || !category || !brand || !price) {
+            if(!name || !description || !images || !categories || !brand || !price) {
                 return res.status(400).json({
                     success: false,
                     error: 'These fields are required'
                 })
             }
     
-            const product = await productModel.create({name, description, images, category, brand, price, stock, rating, numReviews});
+            const product = await productModel.create({name, description, images, categories, brand, price, stock, rating, numReviews});
 
             res.status(200).json({
                 success: true,
