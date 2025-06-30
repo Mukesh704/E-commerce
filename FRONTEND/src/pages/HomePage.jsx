@@ -74,7 +74,7 @@ const HomePage = () => {
       {/* Featured Products Section (remains the same) */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">Headphones For You!</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">Products For You!</h2>
             <ProductList />
         </div>
       </section>
