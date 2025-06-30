@@ -1,23 +1,48 @@
 const productModel = require('../models/productModel')
 
+// async function getProducts(req, res) {
+//     try {
+//         const products = await productModel.find();
+
+//         if(products)
+
+//         res.status(200).json({
+//             success: true,
+//             response: products
+//         })
+//     } catch (err) {
+//         console.groupCollapsed(err);
+//         res.status(500).json({
+//             success: false,
+//             error: 'Internal Server Error'
+//         })
+//     }
+// }
+
 async function getProducts(req, res) {
-    try {
-        const products = await productModel.find();
+  try {
+    const { category } = req.query;
+    let query = {};
 
-        if(products)
-
-        res.status(200).json({
-            success: true,
-            response: products
-        })
-    } catch (err) {
-        console.groupCollapsed(err);
-        res.status(500).json({
-            success: false,
-            error: 'Internal Server Error'
-        })
+    if (category) {
+      query.categories = category; // category is category._id
     }
+
+    const products = await productModel.find(query).populate('categories'); // optional populate
+
+    res.status(200).json({
+      success: true,
+      response: products,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error',
+    });
+  }
 }
+
 
 async function getProductById(req, res) {
     try {

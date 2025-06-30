@@ -13,31 +13,37 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (isAuthenticated) {
+      if (getToken()) {
         try {
           const { data } = await getUserProfile();
           setUser(data);
+          setIsAuthenticated(true);
         } catch (error) {
           console.error("Failed to fetch user profile", error);
           removeToken();
           setIsAuthenticated(false);
+          setUser(null);
         }
       }
       setLoading(false);
     };
     fetchUser();
-  }, [isAuthenticated]);
+  }, []);
 
   const login = async (credentials) => {
     const { data } = await apiLogin(credentials);
     setToken(data.token);
     setIsAuthenticated(true);
+    const profile = await getUserProfile();
+    setUser(profile.data);
   };
 
   const register = async (userData) => {
     const { data } = await apiRegister(userData);
     setToken(data.token);
     setIsAuthenticated(true);
+    const profile = await getUserProfile();
+    setUser(profile.data);
   };
 
   const logout = () => {

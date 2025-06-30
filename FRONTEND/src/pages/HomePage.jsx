@@ -29,7 +29,7 @@ const HomePage = () => {
     }
     
     return categories.map((category, index) => (
-      <Link to={`/products?category=${category.name}`} key={category._id}>
+      <Link to={`/products?category=${category._id}`} key={category._id}>
           <div 
             className={`p-6 rounded-lg text-center h-full flex items-center justify-center transition-transform hover:scale-105 ${categoryColors[index % categoryColors.length]}`}
           >

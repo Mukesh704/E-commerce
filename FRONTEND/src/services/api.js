@@ -23,7 +23,13 @@ export const register = (userData) => api.post('/auth/register', userData);
 export const login = (credentials) => api.post('/auth/login', credentials);
 
 // Products
-export const getProducts = () => api.get('/products');
+// export const getProducts = () => api.get('/products');
+export const getProducts = (categoryId) => {
+  if (categoryId) {
+    return api.get(`/products?category=${categoryId}`);
+  }
+  return api.get('/products');
+};
 export const getProductById = (id) => api.get(`/products/${id}`);
 
 // User
