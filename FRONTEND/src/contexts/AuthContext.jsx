@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       if (getToken()) {
         try {
           const { data } = await getUserProfile();
-          setUser(data);
+          setUser(data.response); // Extract user object from `response`
           setIsAuthenticated(true);
         } catch (error) {
           console.error("Failed to fetch user profile", error);
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     setToken(data.token);
     setIsAuthenticated(true);
     const profile = await getUserProfile();
-    setUser(profile.data);
+    setUser(profile.data.response); // Extract user object from `response`
   };
 
   const register = async (userData) => {
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     setToken(data.token);
     setIsAuthenticated(true);
     const profile = await getUserProfile();
-    setUser(profile.data);
+    setUser(profile.data.response); // ✅ Extract user object from `response`
   };
 
   const logout = () => {
