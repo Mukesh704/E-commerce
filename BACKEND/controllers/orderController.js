@@ -3,6 +3,25 @@ const orderModel = require('../models/orderModel')
 const productModel = require('../models/productModel')
 const userModel = require('../models/userModel')
 
+async function getAllOrders(req, res) {
+    try {
+        const userId = req.user.id;
+
+        const orders = await orderModel.find({user: userId}).populate('orderItems.product').sort({ createdAt: -1 }) // this sort will put the latest first
+
+        res.status(200).json({
+            success: true,
+            response: orders
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: 'Internal Server Error'
+        })
+    }
+}
+
 async function createOrderController(req, res) {
     try {
         const userId = req.user.id
@@ -157,6 +176,7 @@ async function addToWishlistController(req, res) {
 };
 
 module.exports = {
+    getAllOrders,
     createOrderController,
     getOrderController,
     markOrderPaidController,
