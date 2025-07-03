@@ -10,6 +10,7 @@ const api = axios.create({
   },
 });
 
+// Attach token if available
 api.interceptors.request.use((config) => {
   const token = getToken();
   if (token) {
@@ -18,12 +19,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Authentication
+// ===== Authentication =====
 export const register = (userData) => api.post('/auth/register', userData);
 export const login = (credentials) => api.post('/auth/login', credentials);
 
-// Products
-// export const getProducts = () => api.get('/products');
+// OTP Password Reset Flow
+export const sendOtpToEmail = (email) => api.post('/auth/forgot-password', { email });
+export const verifyOtp = (email, otp) => api.post('/auth/verify-otp', { email, otp });
+export const resetPasswordViaOtp = (email, otp, newPassword) =>
+  api.post('/auth/reset-password', { email, otp, newPassword });
+
+// Authenticated User Password Change
+export const resetPassword = (passwords) => api.put('/reset-password', passwords); 
+// passwords: { oldPass, newPass }
+
+// ===== Products =====
 export const getProducts = (categoryId) => {
   if (categoryId) {
     return api.get(`/products?category=${categoryId}`);
@@ -32,15 +42,16 @@ export const getProducts = (categoryId) => {
 };
 export const getProductById = (id) => api.get(`/products/${id}`);
 
-// User
+// ===== User =====
 export const getUserProfile = () => api.get('/users/me');
 export const updateUserProfile = (profileData) => api.put('/users/me', profileData);
 
-// Orders
+// ===== Orders =====
 export const createOrder = (orderData) => api.post('/orders', orderData);
 export const getOrders = () => api.get('/users/orders');
+export const getOrderById = (id) => api.get(`/orders/${id}`);
 
-// Categories
+// ===== Categories =====
 export const getCategories = () => api.get('/categories');
 
 export default api;

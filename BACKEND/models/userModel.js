@@ -25,14 +25,16 @@ const userSchema = new mongoose.Schema(
     wishlist: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product'
-    }]
+    }],
+    otp: String,
+    otpExpires: Date,
   },
   { timestamps: true }
 );
 
 userSchema.pre("save", async function(next) {
   const user = this;
-  if(!user.isModified('password')) next();
+  if (!user.isModified('password')) return next(); // fixed here
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -42,15 +44,14 @@ userSchema.pre("save", async function(next) {
   } catch (err) {
     return next(err);
   }
-})
+});
 
 userSchema.methods.comparePassword = async function(userPassword) {
   try {
-    const isMatch = await bcrypt.compare(userPassword, this.password);
-    return isMatch;
+    return await bcrypt.compare(userPassword, this.password);
   } catch (err) {
     throw err;
   }
-}
+};
 
 module.exports = mongoose.model('User', userSchema);

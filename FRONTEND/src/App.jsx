@@ -11,6 +11,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
+import ForgotPassword from './pages/ForgotPassword';
+import VerifyOtp from './pages/VerifyOtp';
+import ResetPasswordViaOtp from './pages/ResetPasswordViaOtp';
 
 const App = () => {
   return (
@@ -27,6 +30,9 @@ const App = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/orders/:id" element={<OrderDetailsPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/reset-password-otp" element={<ResetPasswordViaOtp />} />
         </Routes>
       </main>
       <Footer />
