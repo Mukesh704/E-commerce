@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Button from '../components/common/Button';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../services/api'; // ✅ using configured axios instance
+import api from '../services/api';
 
 const ProfilePage = () => {
   const { user, logout, loading } = useAuth();
@@ -14,8 +14,8 @@ const ProfilePage = () => {
     const fetchOrdersAndWishlist = async () => {
       try {
         const [orderRes, profileRes] = await Promise.all([
-          api.get('/orders'),        // ✅ token included
-          api.get('/users/me'),      // ✅ token included
+          api.get('/orders'),
+          api.get('/users/me'),
         ]);
 
         if (orderRes.data.success) {
@@ -24,9 +24,8 @@ const ProfilePage = () => {
 
         if (profileRes.data.success) {
           const wishlistIds = profileRes.data.response.wishlist;
-
           const productPromises = wishlistIds.map(id =>
-            api.get(`/products/${id}`)  // ✅ token included
+            api.get(`/products/${id}`)
           );
           const productResults = await Promise.all(productPromises);
           const products = productResults.map(res => res.data.response);
@@ -51,10 +50,16 @@ const ProfilePage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">My Profile</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
+
+      {/* Profile Info */}
+      <div className="bg-white p-6 rounded-lg shadow-md mb-10">
         <p className="mb-2"><strong>Name:</strong> {user.name}</p>
         <p className="mb-4"><strong>Email:</strong> {user.email}</p>
-        <Button onClick={handleLogout} variant="secondary">Logout</Button>
+        <div className="flex gap-4 mt-4">
+          <Button onClick={() => navigate('/change-password')}>
+            Change Password
+          </Button>
+        </div>
       </div>
 
       {/* Wishlist Section */}
@@ -110,6 +115,16 @@ const ProfilePage = () => {
             ))}
           </div>
         )}
+      </div>
+
+      {/* Logout Button at the Bottom */}
+      <div className="text-center mt-12">
+        <button
+          onClick={handleLogout}
+          className="text-red-600 hover:underline font-semibold"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

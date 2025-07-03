@@ -30,7 +30,7 @@ export const resetPasswordViaOtp = (email, otp, newPassword) =>
   api.post('/auth/reset-password', { email, otp, newPassword });
 
 // Authenticated User Password Change
-export const resetPassword = (passwords) => api.put('/reset-password', passwords); 
+export const changePassword = (passwords) => api.put('/auth/change-password', passwords); 
 // passwords: { oldPass, newPass }
 
 // ===== Products =====

@@ -215,7 +215,7 @@ async function resetPasswordViaOtpController(req, res) {
     }
 }
 
-async function resetPasswordController(req, res) {
+async function changePasswordController(req, res) {
     try {
         const userId = req.user.id;
         const user = await userModel.findById(userId);
@@ -258,7 +258,7 @@ module.exports = {
     registerController,
     loginController,
     forgotPasswordController,
-    resetPasswordController,
+    changePasswordController,
     verifyOtpController,
     resetPasswordViaOtpController
 }

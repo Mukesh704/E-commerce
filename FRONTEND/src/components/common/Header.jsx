@@ -7,6 +7,12 @@ const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
   const { cartItems } = useCart();
 
+  const getFirstName = () => {
+    if (!user?.name || typeof user.name !== 'string') return 'Profile';
+    const firstName = user.name.split(' ')[0];
+    return firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  };
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -23,10 +29,7 @@ const Header = () => {
                 to="/profile"
                 className="px-3 py-1 bg-black text-white rounded hover:bg-gray-800 transition duration-200"
               >
-                {user?.name
-                  ?.split(' ')[0]
-                  ?.charAt(0)
-                  ?.toUpperCase() + user?.name?.split(' ')[0]?.slice(1)}
+                {getFirstName()}
               </Link>
               <button
                 onClick={logout}
