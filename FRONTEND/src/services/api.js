@@ -54,4 +54,17 @@ export const getOrderById = (id) => api.get(`/orders/${id}`);
 // ===== Categories =====
 export const getCategories = () => api.get('/categories');
 
+// ===== Review and wishlist =====
+export const addToWishlist = (productId) =>
+  api.post('/wishlist', { productId });
+
+export const getWishlist = () =>
+  api.get('/wishlist');
+
+export const removeFromWishlist = (productId) =>
+  api.delete(`/wishlist/${productId}`);
+
+export const submitReview = (productId, reviewData) =>
+  api.post(`/reviews/${productId}`, reviewData);
+
 export default api;

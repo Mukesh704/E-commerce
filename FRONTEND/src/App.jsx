@@ -15,6 +15,9 @@ import ForgotPassword from './pages/ForgotPassword';
 import VerifyOtp from './pages/VerifyOtp';
 import ResetPasswordViaOtp from './pages/ResetPasswordViaOtp';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import AboutUs from './pages/AboutUs';
+import Contact from './pages/Contact';
+import FAQ from './pages/FAQ';
 
 const App = () => {
   return (
@@ -35,6 +38,9 @@ const App = () => {
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/reset-password-otp" element={<ResetPasswordViaOtp />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
         </Routes>
       </main>
       <Footer />

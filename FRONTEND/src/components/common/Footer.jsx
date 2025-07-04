@@ -1,4 +1,5 @@
 import React from 'react';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const Footer = () => {
   return (
@@ -7,22 +8,24 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">Shopcart</h3>
-            <p className="text-gray-400">A perfect place to find all your needs. High-quality products and unbeatable prices.</p>
+            <p className="text-gray-400">
+              A perfect place to find all your needs. High-quality products and unbeatable prices.
+            </p>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul>
-              <li><a href="#" className="hover:text-gray-300">About Us</a></li>
-              <li><a href="#" className="hover:text-gray-300">Contact</a></li>
-              <li><a href="#" className="hover:text-gray-300">FAQ</a></li>
+              <li><Link smooth to="/about" className="hover:text-gray-300">About Us</Link></li>
+              <li><Link smooth to="/contact" className="hover:text-gray-300">Contact</Link></li>
+              <li><Link smooth to="/faq" className="hover:text-gray-300">FAQ</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Categories</h4>
             <ul>
-              <li><a href="#" className="hover:text-gray-300">Electronics</a></li>
-              <li><a href="#" className="hover:text-gray-300">Furniture</a></li>
-              <li><a href="#" className="hover:text-gray-300">Books</a></li>
+              <li><Link smooth to="/#categories" className="hover:text-gray-300">Electronics</Link></li>
+              <li><Link smooth to="/#categories" className="hover:text-gray-300">Furniture</Link></li>
+              <li><Link smooth to="/#categories" className="hover:text-gray-300">Books</Link></li>
             </ul>
           </div>
           <div>

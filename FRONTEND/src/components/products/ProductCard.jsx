@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="bg-white border rounded-lg shadow-md overflow-hidden flex flex-col">
-      <Link to={`/products/${product.id}`} className="block">
+      <Link to={`/products/${product._id}`} className="block">
         <img src={product.imageUrl || 'https://via.placeholder.com/400'} alt={product.name} className="w-full h-64 object-cover" />
       </Link>
       <div className="p-4 flex flex-col flex-grow">
