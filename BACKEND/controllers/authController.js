@@ -27,6 +27,8 @@ async function registerController(req, res) {
 
         const payload = {
             id: user.id,
+            name: user.name,
+            email: user.email,
             role: user.role
         }
 
@@ -70,6 +72,8 @@ async function loginController(req, res) {
 
         const payload = {
             id: user.id,
+            name: user.name,
+            email: user.email,
             role: user.role
         }
 
