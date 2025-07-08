@@ -55,8 +55,8 @@ export const getOrderById = (id) => api.get(`/orders/${id}`);
 export const getCategories = () => api.get('/categories');
 
 // ===== Review and wishlist =====
-export const addToWishlist = (productId) =>
-  api.post('/wishlist', { productId });
+export const addToWishlist = (id) =>
+  api.post(`/wishlist/${id}`);
 
 export const getWishlist = () =>
   api.get('/wishlist');
