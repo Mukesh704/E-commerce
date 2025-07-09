@@ -163,6 +163,7 @@ const ProductDetailPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Image Carousel */}
         <div className="flex gap-4">
+          {/* Thumbnail column */}
           <div className="flex flex-col gap-2 overflow-y-auto max-h-[400px]">
             {product.images?.map((img, index) => (
               <img
@@ -174,11 +175,13 @@ const ProductDetailPage = () => {
               />
             ))}
           </div>
-          <div className="flex-1 flex items-center justify-center border rounded bg-white p-4">
+
+          {/* Main Image */}
+          <div className="flex-1 border rounded bg-white overflow-hidden h-[550px]">
             <img
               src={product.images?.[currentImageIndex] || 'https://via.placeholder.com/400'}
               alt={product.name}
-              className="w-full h-[400px] object-contain"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
@@ -214,8 +217,8 @@ const ProductDetailPage = () => {
           <div className="flex gap-4 mt-4">
             <Button onClick={handleAddToCart} className="bg-black text-white">Add to Cart</Button>
             <Button onClick={handleBuyNow} className="bg-black text-white">Buy Now</Button>
-            <Button onClick={toggleWishlist} className="flex items-center gap-2 border border-black text-black">
-              {isFavourite ? <AiFillHeart className="text-red-600" /> : <AiOutlineHeart className="text-black" />} Favourite
+            <Button onClick={toggleWishlist} className="flex items-center gap-2 border border-black text-white">
+              {isFavourite ? <AiFillHeart className="text-red-600" /> : <AiOutlineHeart className="text-white" />} Favourite
             </Button>
           </div>
 
