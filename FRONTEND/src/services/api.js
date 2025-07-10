@@ -67,4 +67,10 @@ export const removeFromWishlist = (productId) =>
 export const submitReview = (productId, reviewData) =>
   api.post(`/reviews/${productId}`, reviewData);
 
+// ===== Addresses =====
+export const addAddress = (addressData) => api.post('/address', addressData);
+export const updateAddress = (addressId, updatedData) => api.put(`/address/${addressId}`, updatedData);
+export const deleteAddress = (addressId) => api.delete(`/address/${addressId}`);
+export const getAddresses = () => api.get('/address');
+
 export default api;

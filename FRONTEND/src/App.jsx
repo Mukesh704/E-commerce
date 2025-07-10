@@ -18,6 +18,7 @@ import ChangePasswordPage from './pages/ChangePasswordPage';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import FAQ from './pages/FAQ';
+import AddAddressPage from './pages/AddAddressPage';
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/add-address" element={<AddAddressPage />} />
         </Routes>
       </main>
       <Footer />

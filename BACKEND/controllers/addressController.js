@@ -90,8 +90,34 @@ async function removeAddress(req, res) {
     }
 }
 
+async function fetchAddresses(req, res) {
+    try {
+        const userId = req.user.id;
+        const addresses = await addressModel.find({userId: userId});
+
+        if(!addresses) {
+            return res.status(404).json({
+                success: false,
+                error: "Address Not Found"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            response: addresses
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: 'Internal Server Error'
+        })
+    }
+}
+
 module.exports = {
     addAddress,
     updateAddress,
-    removeAddress
+    removeAddress,
+    fetchAddresses
 }
