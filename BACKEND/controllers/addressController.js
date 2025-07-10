@@ -1,0 +1,97 @@
+const addressModel = require('../models/addressModel')
+
+async function addAddress(req, res) {
+    try {
+        const userId = req.user.id;
+        const { address, landmark, city, state, postalCode, country, isDefault } = req.body;
+
+        const response = await addressModel.create({
+            userId: userId,
+            address: address,
+            landmark: landmark,
+            city: city,
+            state: state,
+            postalCode: postalCode,
+            country: country,
+            isDefault: isDefault
+        })
+
+        res.status(201).json({
+            success: true,
+            response
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500),json({
+            success: false,
+            error: 'Internal Server Error'
+        })
+    }
+}
+
+async function updateAddress(req, res) {
+    try {
+        const addressId = req.params.id;
+        const body = req.body;
+        const address = await addressModel.findById(addressId);
+
+        if(!address) {
+            return res.status(404).json({
+                success: false,
+                error: "Address does not exist"
+            })
+        }
+
+        const response = await addressModel.findByIdAndUpdate(addressId, body, {new: true});
+
+        res.status(200).json({
+            success: true,
+            response
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: "Internal Server Error"
+        })
+    }
+}
+
+async function removeAddress(req, res) {
+    try {
+        const addressId = req.params.id;
+        const check = await addressModel.findById(addressId);
+
+        if(!check) {
+            return res.status(404).json({
+                success: false,
+                error: 'Addres not found'
+            })
+        }
+
+        const response = await addressModel.findByIdAndDelete(addressId);
+        if(!response) {
+            return res.status(400).json({
+                success: false,
+                error: 'Failed to delete address'
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Address deleted successfully'
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: "Internal Server Error"
+        })
+    }
+}
+
+module.exports = {
+    addAddress,
+    updateAddress,
+    removeAddress
+}
