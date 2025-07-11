@@ -171,13 +171,13 @@ const ProductDetailPage = () => {
                 src={img || 'https://via.placeholder.com/400'}
                 alt="thumbnail"
                 onClick={() => setCurrentImageIndex(index)}
-                className={`w-16 h-16 object-cover border rounded cursor-pointer ${currentImageIndex === index ? 'ring-2 ring-black' : ''}`}
+                className={`w-16 h-16 object-cover rounded cursor-pointer ${currentImageIndex === index ? 'ring-2 ring-black' : ''}`}
               />
             ))}
           </div>
 
           {/* Main Image */}
-          <div className="flex-1 border rounded bg-white overflow-hidden h-[550px]">
+          <div className="flex-1 rounded bg-white overflow-hidden h-[550px]">
             <img
               src={product.images?.[currentImageIndex] || 'https://via.placeholder.com/400'}
               alt={product.name}

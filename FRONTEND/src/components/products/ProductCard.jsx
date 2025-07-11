@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div
-      className="bg-white border rounded-lg shadow-md overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition"
+      className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col cursor-pointer hover:shadow-lg transition"
       onClick={handleCardClick}
     >
       <img
