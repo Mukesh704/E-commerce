@@ -1,11 +1,13 @@
 // src/pages/AddAddressPage.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import Button from '../components/common/Button';
 
 const AddAddressPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnTo = location.state?.returnTo || '/profile';
   const [formData, setFormData] = useState({
     address: '',
     landmark: '',
@@ -28,7 +30,7 @@ const AddAddressPage = () => {
     e.preventDefault();
     try {
       await api.post('/address', formData);
-      navigate('/profile'); // Redirect to profile after successful addition
+      navigate(returnTo); // Redirect to desired page
     } catch (error) {
       console.error('Failed to add address:', error);
       alert('Something went wrong. Please try again.');

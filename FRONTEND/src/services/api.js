@@ -72,5 +72,6 @@ export const addAddress = (addressData) => api.post('/address', addressData);
 export const updateAddress = (addressId, updatedData) => api.put(`/address/${addressId}`, updatedData);
 export const deleteAddress = (addressId) => api.delete(`/address/${addressId}`);
 export const getAddresses = () => api.get('/address');
+export const getPrimaryAddress = () => api.get('/address/primary');
 
 export default api;
