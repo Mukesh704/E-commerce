@@ -115,9 +115,34 @@ async function fetchAddresses(req, res) {
     }
 }
 
+async function fetchPrimaryAddress(req, res) {
+    try {
+        const primaryAddress = await addressModel.findOne({isDefault: true});
+
+        if(!primaryAddress) {
+            return res.status(404).json({
+                success: false,
+                error: 'Primary address not found'
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            response: primaryAddress
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: 'Intenal Server Error'
+        })
+    }
+}
+
 module.exports = {
     addAddress,
     updateAddress,
     removeAddress,
-    fetchAddresses
+    fetchAddresses,
+    fetchPrimaryAddress
 }
