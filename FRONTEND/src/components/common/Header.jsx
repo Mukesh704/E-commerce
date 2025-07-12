@@ -19,7 +19,7 @@ const Header = () => {
         <Link to="/" className="text-2xl font-bold text-gray-800">Shopcart</Link>
 
         <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/products" className="text-gray-600 hover:text-gray-800">Categories</Link>
+          <Link to="/products" className="text-gray-600 hover:text-gray-800">Products</Link>
         </nav>
 
         <div className="flex items-center space-x-4">

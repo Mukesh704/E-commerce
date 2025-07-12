@@ -31,7 +31,7 @@ const CartPage = () => {
               <img src={item.imageUrl} alt={item.name} className="w-20 h-20 object-cover rounded" />
               <div className="flex-grow px-4">
                 <h2 className="font-semibold">{item.name}</h2>
-                <p>${item.price}</p>
+                <p>₹{item.price}</p>
               </div>
               <input
                 type="number"
@@ -55,7 +55,7 @@ const CartPage = () => {
           <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mb-4">
             <span>Shipping</span>
@@ -63,7 +63,7 @@ const CartPage = () => {
           </div>
           <div className="flex justify-between font-bold text-xl border-t pt-4">
             <span>Total</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <Link to="/checkout">
             <Button className="w-full mt-6">Proceed to Checkout</Button>
