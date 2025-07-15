@@ -6,7 +6,7 @@ require('./db.js');
 
 const cors = require('cors');
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', 'http://localhost:5174'],
   credentials: true,
 }));
 
@@ -23,6 +23,7 @@ const productsRouter = require('./routes/productsRouter.js')
 const reviewRouter = require('./routes/reviewRouter')
 const wishlistRouter = require('./routes/wishlistRouter')
 const addressRouter = require('./routes/addressRouter.js')
+const adminUserManagementRouter = require('./routes/adminUserManagementRouter.js')
 
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
@@ -34,6 +35,7 @@ app.use('/products', productsRouter)
 app.use('/reviews', reviewRouter)
 app.use('/wishlist', wishlistRouter)
 app.use('/address', addressRouter)
+app.use('/admin/users', adminUserManagementRouter)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port: ${process.env.PORT}`)
