@@ -24,6 +24,7 @@ const reviewRouter = require('./routes/reviewRouter')
 const wishlistRouter = require('./routes/wishlistRouter')
 const addressRouter = require('./routes/addressRouter.js')
 const adminUserManagementRouter = require('./routes/adminUserManagementRouter.js')
+const adminServicesRouter = require('./routes/adminServices.js')
 
 app.use('/auth', authRouter)
 app.use('/users', userRouter)
@@ -36,6 +37,7 @@ app.use('/reviews', reviewRouter)
 app.use('/wishlist', wishlistRouter)
 app.use('/address', addressRouter)
 app.use('/admin/users', adminUserManagementRouter)
+app.use('/admin', adminServicesRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port: ${process.env.PORT}`)
