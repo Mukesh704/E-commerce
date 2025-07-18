@@ -31,9 +31,9 @@ export const deleteProduct = (productId) => adminApi.delete(`/admin/products/${p
 
 // ===== Admin Orders =====
 export const getAllOrders = () => adminApi.get('/admin/orders');
-export const updateOrderStatus = (orderId, statusData) => adminApi.put(`/admin/orders/${orderId}`, statusData);
+export const updateOrderDeliveryStatus = (orderId) => adminApi.put(`/admin/orders/delivery-status/${orderId}`);
 
-// ===== Admin Dashboard (to be implement) =====
+// ===== Admin Dashboard =====
 export const getDashboardStats = () => adminApi.get('/admin/stats');
 export const getRecentOrders = () => adminApi.get('/admin/orders/recent');
 export const getTopSellingProducts = () => adminApi.get('/admin/products/top-selling');
