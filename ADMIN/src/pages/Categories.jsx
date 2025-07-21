@@ -6,6 +6,7 @@ export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const [catName, setCatName] = useState("");
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
   const inputRef = useRef(null);
 
@@ -13,7 +14,9 @@ export default function Categories() {
     setLoading(true);
     try {
       const res = await getCategories();
-      const cats = Array.isArray(res.data) ? res.data : res.data.categories || [];
+      const cats = Array.isArray(res.data.response)
+        ? res.data.response
+        : res.data.categories || [];
       setCategories(cats);
     } catch (err) {
       console.error("Failed to fetch categories", err);
@@ -33,8 +36,9 @@ export default function Categories() {
     e.preventDefault();
     if (!catName.trim()) return;
     try {
-      await createCategory({ name: catName });
+      await createCategory({ name: catName, description });
       setCatName("");
+      setDescription("");
       setOpen(false);
       fetchCategories();
     } catch (err) {
@@ -56,14 +60,15 @@ export default function Categories() {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow p-6 max-w-lg mx-auto">
+      <div className="bg-white rounded-xl shadow p-6 max-w-3xl mx-auto">
         <ul className="divide-y divide-gray-200 text-gray-800">
           {categories.length === 0 ? (
             <li className="py-3 text-center text-gray-500">No categories found.</li>
           ) : (
             categories.map((cat) => (
-              <li key={cat._id} className="py-3 text-lg font-medium">
-                {cat.name}
+              <li key={cat._id} className="py-4">
+                <div className="text-lg font-semibold">{cat.name}</div>
+                <div className="text-sm text-gray-600">{cat.description || "No description"}</div>
               </li>
             ))
           )}
@@ -77,7 +82,7 @@ export default function Categories() {
         >
           <form
             onSubmit={submit}
-            className="bg-white shadow-xl rounded-xl p-6 w-80 space-y-4 relative"
+            className="bg-white shadow-xl rounded-xl p-6 w-96 space-y-4 relative"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold text-gray-800">Add New Category</h2>
@@ -88,6 +93,13 @@ export default function Categories() {
               value={catName}
               onChange={(e) => setCatName(e.target.value)}
               required
+            />
+            <textarea
+              className="border border-gray-300 rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-black resize-none"
+              placeholder="Enter description (optional)"
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <div className="flex gap-3 pt-2">
               <button
