@@ -23,20 +23,30 @@ export const adminLogin = (credentials) => adminApi.post('/auth/admin-login', cr
 
 // ===== Admin Categories =====
 export const createCategory = (categoryData) => adminApi.post('/categories', categoryData);
+export const getCategories = () => adminApi.get('/categories');
 
 // ===== Admin Products =====
 export const createProduct = (productData) => adminApi.post('/admin/products', productData);
 export const updateProduct = (productId, updatedData) => adminApi.put(`/admin/products/${productId}`, updatedData);
 export const deleteProduct = (productId) => adminApi.delete(`/admin/products/${productId}`);
+export const getTopSellingProducts = () => adminApi.get('/admin/products/top-selling');
+
+// ===== Products (non-admin) =====
+export const getProducts = (categoryId) => {
+  if (categoryId) {
+    return adminApi.get(`/products?category=${categoryId}`);
+  }
+  return adminApi.get('/products');
+};
 
 // ===== Admin Orders =====
 export const getAllOrders = () => adminApi.get('/admin/orders');
 export const updateOrderDeliveryStatus = (orderId) => adminApi.put(`/admin/orders/delivery-status/${orderId}`);
+export const getRecentOrders = () => adminApi.get('/admin/orders/recent');
+export const getUndeliveredOrders = () => adminApi.get('/admin/orders/undelivered');
 
 // ===== Admin Dashboard =====
 export const getDashboardStats = () => adminApi.get('/admin/stats');
-export const getRecentOrders = () => adminApi.get('/admin/orders/recent');
-export const getTopSellingProducts = () => adminApi.get('/admin/products/top-selling');
 
 // ===== Admin Users Management =====
 export const getAllUsers = () => adminApi.get('/admin/users');
