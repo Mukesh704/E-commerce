@@ -5,19 +5,20 @@ import Loader from '../components/Loader';
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [toggling, setToggling] = useState(null); // stores currently toggling user ID
+  const [toggling, setToggling] = useState(null); // ID of the user currently being toggled
 
   const fetchUsers = async () => {
     setLoading(true);
     try {
       const res = await getAllUsers();
-      if (Array.isArray(res?.data)) {
-        setUsers(res.data);
+      if (res?.data?.response && Array.isArray(res.data.response)) {
+        setUsers(res.data.response);
       } else {
-        setUsers([]); // fallback in case of invalid response
+        setUsers([]);
       }
     } catch (err) {
       console.error("Failed to fetch users:", err);
+      setUsers([]);
     }
     setLoading(false);
   };
@@ -30,7 +31,7 @@ export default function Users() {
     setToggling(userId);
     try {
       await toggleUserAccess(userId);
-      await fetchUsers(); // refresh after toggle
+      await fetchUsers();
     } catch (err) {
       console.error("Toggle failed:", err);
     }
@@ -49,6 +50,7 @@ export default function Users() {
               <th className="p-4 text-left font-semibold">User ID</th>
               <th className="p-4 text-left font-semibold">Name</th>
               <th className="p-4 text-left font-semibold">Email</th>
+              <th className="p-4 text-left font-semibold">Created At</th>
               <th className="p-4 text-left font-semibold">Status</th>
               <th className="p-4 text-left font-semibold">Actions</th>
             </tr>
@@ -56,13 +58,14 @@ export default function Users() {
           <tbody>
             {users.map((user) => (
               <tr key={user._id} className="border-b hover:bg-gray-50 transition">
-                <td className="p-4 text-gray-800">{user._id}</td>
+                <td className="p-4">{user._id}</td>
                 <td className="p-4">{user.name || 'N/A'}</td>
                 <td className="p-4">{user.email || 'N/A'}</td>
+                <td className="p-4">{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td className="p-4">
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-semibold 
-                    ${user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                      ${user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
                   >
                     {user.isActive ? "Active" : "Blocked"}
                   </span>
@@ -75,14 +78,18 @@ export default function Users() {
                       ${user.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'} 
                       text-white disabled:opacity-50`}
                   >
-                    {toggling === user._id ? "Updating..." : user.isActive ? "Block" : "Unblock"}
+                    {toggling === user._id
+                      ? "Updating..."
+                      : user.isActive
+                      ? "Block"
+                      : "Unblock"}
                   </button>
                 </td>
               </tr>
             ))}
             {users.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-4 text-center text-gray-500">
+                <td colSpan={6} className="p-4 text-center text-gray-500">
                   No users found.
                 </td>
               </tr>
