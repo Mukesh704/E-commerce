@@ -4,21 +4,31 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
+  getCategories,
 } from "../services/adminApi";
 import Loader from "../components/Loader";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(null);
-  const [form, setForm] = useState({ name: "", price: "" });
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    brand: "",
+    stock: "",
+    description: "",
+    categories: [],
+    images: [],
+  });
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const { data } = await getProducts();
-      setProducts(data.response || []); // Adjusted for your actual API structure
+      setProducts(data.response || []);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
@@ -26,31 +36,75 @@ export default function Products() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const { data } = await getCategories();
+      setCategories(data.response || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const handleOpen = (product = null) => {
     setEdit(product);
-    setForm(product ? { name: product.name, price: product.price } : { name: "", price: "" });
+    setForm(
+      product
+        ? {
+          name: product.name,
+          price: product.price,
+          brand: product.brand,
+          stock: product.stock,
+          description: product.description,
+          categories: product.categories?.map(c => (typeof c === "object" ? c._id : c)) || [],
+          images: product.images || [],
+        }
+        : {
+          name: "",
+          price: "",
+          brand: "",
+          stock: "",
+          description: "",
+          categories: [],
+          images: [],
+        }
+    );
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
     setEdit(null);
-    setForm({ name: "", price: "" });
+    setForm({
+      name: "",
+      price: "",
+      brand: "",
+      stock: "",
+      description: "",
+      categories: [],
+      images: [],
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name.trim() || form.price < 0) return;
     try {
+      const preparedForm = {
+        ...form,
+        price: Number(form.price),
+        stock: Number(form.stock),
+      };
+
       if (edit) {
-        await updateProduct(edit._id, form);
+        await updateProduct(edit._id, preparedForm);
       } else {
-        await createProduct(form);
+        await createProduct(preparedForm);
       }
+
       handleClose();
       fetchProducts();
     } catch (error) {
@@ -67,6 +121,18 @@ export default function Products() {
         console.error("Error deleting product:", error);
       }
     }
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions).map(
+      (option) => option.value
+    );
+    setForm((f) => ({ ...f, categories: selectedOptions }));
+  };
+
+  const handleImagesChange = (e) => {
+    const urls = e.target.value.split("\n").filter(Boolean);
+    setForm((f) => ({ ...f, images: urls }));
   };
 
   if (loading) return <Loader />;
@@ -93,7 +159,6 @@ export default function Products() {
               <th className="p-4 text-left font-semibold">Category</th>
               <th className="p-4 text-left font-semibold">Price</th>
               <th className="p-4 text-left font-semibold">Stock</th>
-              <th className="p-4 text-left font-semibold">Rating</th>
               <th className="p-4 text-center font-semibold">Actions</th>
             </tr>
           </thead>
@@ -110,10 +175,13 @@ export default function Products() {
                 </td>
                 <td className="p-4 font-medium text-gray-800">{p.name}</td>
                 <td className="p-4">{p.brand}</td>
-                <td className="p-4">{p.categories?.[0]?.name || "N/A"}</td>
+                <td className="p-4">
+                  {p.categories?.map((c) =>
+                    typeof c === "object" ? c.name : c
+                  ).join(", ")}
+                </td>
                 <td className="p-4">₹{p.price}</td>
                 <td className="p-4">{p.stock}</td>
-                <td className="p-4">{p.rating?.toFixed(1) || 0}</td>
                 <td className="p-4 flex justify-center gap-2">
                   <button
                     onClick={() => handleOpen(p)}
@@ -132,7 +200,7 @@ export default function Products() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan={8} className="text-center p-6 text-gray-500">
+                <td colSpan={7} className="text-center p-6 text-gray-500">
                   No products found.
                 </td>
               </tr>
@@ -150,31 +218,136 @@ export default function Products() {
           <form
             onClick={(e) => e.stopPropagation()}
             onSubmit={handleSubmit}
-            className="bg-white rounded-xl shadow-xl p-6 w-96 space-y-4 animate-fade-in"
+            className="bg-white rounded-xl shadow-xl w-[95%] max-w-md max-h-[90vh] overflow-y-auto p-6 space-y-4 animate-fade-in"
           >
             <h2 className="text-xl font-bold text-gray-800">
               {edit ? "Edit Product" : "Add Product"}
             </h2>
 
-            <input
-              type="text"
-              placeholder="Product Name"
-              value={form.name}
-              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-              className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-black"
-              required
-            />
+            {/* Same form fields as before */}
+            {["name", "brand", "description"].map((field) => (
+              <input
+                key={field}
+                type="text"
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                value={form[field]}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, [field]: e.target.value }))
+                }
+                className="w-full border border-gray-300 rounded px-4 py-2"
+                required
+              />
+            ))}
 
-            <input
-              type="number"
-              placeholder="Price"
-              value={form.price}
-              onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-              className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-black"
-              min="0"
-              required
-            />
+            {/* Categories pills and select */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Categories</label>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {form.categories.map((id) => {
+                  const category = categories.find((c) => c._id === id);
+                  return (
+                    <span
+                      key={id}
+                      className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+                    >
+                      {category?.name || id}
+                      <button
+                        type="button"
+                        className="text-blue-700 hover:text-blue-900"
+                        onClick={() =>
+                          setForm((f) => ({
+                            ...f,
+                            categories: f.categories.filter((cid) => cid !== id),
+                          }))
+                        }
+                      >
+                        ✕
+                      </button>
+                    </span>
+                  );
+                })}
+              </div>
+              <select
+                className="w-full border border-gray-300 rounded px-4 py-2"
+                value=""
+                onChange={(e) => {
+                  const id = e.target.value;
+                  if (!form.categories.includes(id)) {
+                    setForm((f) => ({ ...f, categories: [...f.categories, id] }));
+                  }
+                }}
+              >
+                <option value="" disabled>Select a category</option>
+                {categories.map((cat) => (
+                  <option
+                    key={cat._id}
+                    value={cat._id}
+                    disabled={form.categories.includes(cat._id)}
+                    className={form.categories.includes(cat._id) ? "text-gray-400" : ""}
+                  >
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
+            {/* Images dynamic input field */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Images</label>
+              {form.images.map((img, idx) => (
+                <div key={idx} className="flex items-center gap-2 mb-2">
+                  <input
+                    type="text"
+                    placeholder="Image URL"
+                    value={img}
+                    onChange={(e) => {
+                      const updatedImages = [...form.images];
+                      updatedImages[idx] = e.target.value;
+                      setForm((f) => ({ ...f, images: updatedImages }));
+                    }}
+                    className="flex-1 border border-gray-300 rounded px-4 py-2"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm((f) => ({
+                        ...f,
+                        images: f.images.filter((_, i) => i !== idx),
+                      }));
+                    }}
+                    className="bg-red-100 text-red-600 rounded px-2 py-1 hover:bg-red-200 text-sm"
+                  >
+                    –
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => setForm((f) => ({ ...f, images: [...f.images, ""] }))}
+                className="text-sm text-blue-600 font-semibold hover:underline"
+              >
+                + Add Image
+              </button>
+            </div>
+
+            {/* Price & Stock */}
+            {["price", "stock"].map((field) => (
+              <input
+                key={field}
+                type="number"
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                value={form[field]}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, [field]: e.target.value }))
+                }
+                className="w-full border border-gray-300 rounded px-4 py-2"
+                min="0"
+                required
+              />
+            ))}
+
+            {/* Action buttons */}
             <div className="flex gap-3 pt-2">
               <button
                 type="submit"
