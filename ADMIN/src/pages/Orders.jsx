@@ -1,38 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { getAllOrders, updateOrderDeliveryStatus } from '../services/adminApi';
-import Loader from '../components/Loader';
-import { formatDate } from '../utils/formatDate';
+import React, { useEffect, useState } from "react";
+import {
+  getAllOrders,
+  getRecentOrders,
+  getUndeliveredOrders,
+  updateOrderDeliveryStatus,
+} from "../services/adminApi";
+import Loader from "../components/Loader";
+import { formatDate } from "../utils/formatDate";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [deliveringId, setDeliveringId] = useState(null);
+  const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    fetchOrders();
+  }, [filter]);
 
   const fetchOrders = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data } = await getAllOrders();
-      setOrders(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Error fetching orders:', error);
+      let res;
+      switch (filter) {
+        case "recent":
+          res = await getRecentOrders();
+          setOrders(res.data.response || []);
+          break;
+        case "undelivered":
+          res = await getUndeliveredOrders();
+          setOrders(res.data.response || []);
+          break;
+        default:
+          res = await getAllOrders();
+          setOrders(res.data.orders || []);
+          break;
+      }
+    } catch (err) {
+      console.error("Error fetching orders:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const handleDeliver = async (id) => {
+  const markAsDelivered = async (orderId) => {
     try {
-      setDeliveringId(id);
-      await updateOrderDeliveryStatus(id);
-      fetchOrders();
-    } catch (error) {
-      console.error('Error marking as delivered:', error);
-    } finally {
-      setDeliveringId(null);
+      await updateOrderDeliveryStatus(orderId);
+      fetchOrders(); // refresh after update
+    } catch (err) {
+      console.error("Failed to update delivery status:", err);
     }
   };
 
@@ -40,81 +55,90 @@ export default function Orders() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Orders</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Orders</h1>
 
-      <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-100 text-gray-600 uppercase tracking-wide text-xs">
-            <tr>
-              <th className="p-4 text-left whitespace-nowrap">Order ID</th>
-              <th className="p-4 text-left whitespace-nowrap">Customer</th>
-              <th className="p-4 text-left whitespace-nowrap">Amount</th>
-              <th className="p-4 text-left whitespace-nowrap">Status</th>
-              <th className="p-4 text-left whitespace-nowrap">Date</th>
-              <th className="p-4 text-left whitespace-nowrap">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {orders.length > 0 ? (
-              orders.map((order) => (
-                <tr
-                  key={order._id}
-                  className="hover:bg-gray-50 transition duration-150 ease-in-out"
-                >
-                  <td className="p-4 font-mono text-xs text-gray-700">
-                    {order._id}
-                  </td>
-                  <td className="p-4 text-gray-800">
-                    {order.customerName || order.userEmail || 'N/A'}
-                  </td>
-                  <td className="p-4 font-semibold text-gray-900">
-                    ₹{order.totalAmount}
-                  </td>
-                  <td className="p-4">
-                    <span
-                      className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${
-                        order.isDelivered
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}
-                    >
-                      {order.isDelivered ? 'Delivered' : 'Pending'}
-                    </span>
-                  </td>
-                  <td className="p-4 text-gray-600">
-                    {order.createdAt ? formatDate(order.createdAt) : 'N/A'}
-                  </td>
-                  <td className="p-4">
-                    {!order.isDelivered ? (
-                      <button
-                        disabled={deliveringId === order._id}
-                        onClick={() => handleDeliver(order._id)}
-                        className={`px-4 py-2 rounded text-white text-xs font-semibold transition ${
-                          deliveringId === order._id
-                            ? 'bg-green-400 cursor-not-allowed'
-                            : 'bg-green-600 hover:bg-green-700'
-                        }`}
-                      >
-                        {deliveringId === order._id
-                          ? 'Processing...'
-                          : 'Mark Delivered'}
-                      </button>
-                    ) : (
-                      <span className="text-sm text-gray-400">—</span>
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={6} className="p-6 text-center text-gray-500">
-                  No orders found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <div className="mb-6 flex gap-4">
+        {["all", "recent", "undelivered"].map((f) => (
+          <button
+            key={f}
+            onClick={() => setFilter(f)}
+            className={`px-4 py-2 rounded-md text-sm font-medium border ${
+              filter === f
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-700 border-gray-300"
+            }`}
+          >
+            {f[0].toUpperCase() + f.slice(1)} Orders
+          </button>
+        ))}
       </div>
+
+      {orders.length === 0 ? (
+        <p className="text-gray-500">No orders found.</p>
+      ) : (
+        <div className="space-y-6">
+          {orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white p-5 rounded-lg shadow-md space-y-2"
+            >
+              <div className="flex justify-between items-center">
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Order #{order._id.slice(-6)}
+                </h2>
+                <span
+                  className={`text-sm px-3 py-1 rounded-full ${
+                    order.isDelivered
+                      ? "bg-green-100 text-green-700"
+                      : "bg-yellow-100 text-yellow-700"
+                  }`}
+                >
+                  {order.orderStatus}
+                </span>
+              </div>
+
+              <div className="text-sm text-gray-700">
+                <p>
+                  <span className="font-medium">Payment:</span>{" "}
+                  {order.paymentMethod} ({order.isPaid ? "Paid" : "Unpaid"})
+                </p>
+                <p>
+                  <span className="font-medium">Total:</span> ₹{order.totalPrice}
+                </p>
+                <p>
+                  <span className="font-medium">Date:</span>{" "}
+                  {formatDate(order.createdAt)}
+                </p>
+                <p>
+                  <span className="font-medium">Shipping:</span>{" "}
+                  {order.shippingAddress?.address}, {order.shippingAddress?.postalCode},{" "}
+                  {order.shippingAddress?.country}
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-gray-800 mt-3">Items:</h3>
+                <ul className="ml-4 list-disc text-sm text-gray-600">
+                  {order.orderItems.map((item) => (
+                    <li key={item._id}>
+                      Product ID: <span className="font-mono">{item.product}</span> × {item.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {!order.isDelivered && (
+                <button
+                  onClick={() => markAsDelivered(order._id)}
+                  className="mt-4 inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+                >
+                  Mark as Delivered
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
