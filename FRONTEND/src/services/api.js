@@ -74,4 +74,10 @@ export const deleteAddress = (addressId) => api.delete(`/address/${addressId}`);
 export const getAddresses = () => api.get('/address');
 export const getPrimaryAddress = () => api.get('/address/primary');
 
+// ===== Best Seller =====
+export const getBestSellers = () => api.get('/products/bestsellers');
+
+// ===== Contact Us =====
+export const sendContactMessage = (data) => api.post('/contact/', data);
+
 export default api;

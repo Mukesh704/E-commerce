@@ -24,7 +24,6 @@ async function getProducts(req, res) {
   }
 }
 
-
 async function getProductById(req, res) {
     try {
         const productId = req.params.id;
@@ -51,7 +50,25 @@ async function getProductById(req, res) {
     }
 }
 
+async function getBestSellingProducts(req, res) {
+    try {
+        const products = await productModel.find().sort({itemsSold: -1}).limit(10);
+        
+        res.status(200).json({
+            success: true,
+            response: products
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            error: 'Internal Server'
+        })
+    }
+}
+
 module.exports = {
     getProducts,
-    getProductById
+    getProductById,
+    getBestSellingProducts
 }
