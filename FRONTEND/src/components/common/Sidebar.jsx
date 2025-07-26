@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCategories } from '../../contexts/CategoryContext';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { isAuthenticated, user } = useAuth();
+  const { categories, loading: catLoading, error: catError } = useCategories();
 
   const getFirstNameForSidebar = () => {
     if (isAuthenticated && user?.name && typeof user.name === 'string') {
@@ -39,7 +41,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           <h2 className="text-xl font-bold">Hello, {getFirstNameForSidebar()}</h2>
           <button
             onClick={onClose}
-            className="ml-auto text-white hover:text-gray-200 text-2xl"
+            className="ml-auto text-white hover:text-gray-200 text-4xl"
           >
             &times;
           </button>
@@ -48,6 +50,33 @@ const Sidebar = ({ isOpen, onClose }) => {
         {/* Scrollable content */}
         <div className="p-4 overflow-y-auto h-[calc(100%-60px)] bg-white">
 
+          {/* Programs & Features */}
+          <h3 className="text-md font-semibold text-[#819A91] mb-2">Programs & Features</h3>
+          <ul className="text-gray-800">
+            <li className="py-2 px-2 rounded hover:bg-[#EEEFE0]">
+              <Link to="/wishlist" onClick={onClose}>Your Wishlist</Link>
+            </li>
+            <li className="py-2 px-2 rounded hover:bg-[#EEEFE0]">
+              <Link to="/about" onClick={onClose}>About Us</Link>
+            </li>
+          </ul>
+
+          {/* Shop by Category */}
+          <h3 className="text-md font-semibold text-[#819A91] mb-2">Shop by Category</h3>
+          {catLoading && <p className="text-sm text-gray-500 mb-2">Loading categories...</p>}
+          {catError && <p className="text-sm text-red-500 mb-2">Failed to load categories</p>}
+          <ul className="text-gray-800">
+            {categories.map((category) => (
+              <li
+                key={category._id}
+                className="py-2 px-2 rounded hover:bg-[#EEEFE0]"
+              >
+                <Link to={`/products?category=${category._id}`} onClick={onClose}>
+                  {category.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
           {/* Help & Settings */}
           <h3 className="text-md font-semibold text-[#819A91] mb-2">Help & Settings</h3>
