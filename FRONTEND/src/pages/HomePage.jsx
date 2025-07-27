@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ProductList from '../components/products/ProductList';
+import SlidingProductList from '../components/products/SlidingProductList';
 import BestSellersSection from '../components/products/BestSellersSection'; // NEW
 import heroImage from '../assets/images/hero-bg.jpg';
 
@@ -35,10 +35,10 @@ const HomePage = () => {
       <BestSellersSection />
 
       {/* Regular Product List */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 overflow-hidden">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">Products For You!</h2>
-          <ProductList />
+          <SlidingProductList />
         </div>
       </section>
     </div>
