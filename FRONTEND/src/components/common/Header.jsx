@@ -11,9 +11,9 @@ const Header = () => {
   const { cartItems } = useCart();
 
   return (
-    <header className="shadow-md w-full z-50 relative">
+    <header className="w-full z-50 relative">
       {/* Top bar */}
-      <div className="bg-white py-4 px-6 flex items-center justify-between gap-6">
+      <div className="bg-white py-2 px-6 flex items-center justify-between gap-6">
         {/* Left - Shop name */}
         <div className="text-2xl font-bold text-gray-800 whitespace-nowrap">
           <Link to="/">ShopEase</Link>

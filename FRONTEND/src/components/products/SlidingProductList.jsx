@@ -19,35 +19,43 @@ const SlidingProductList = () => {
   }
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 2500,
-    speed: 800,
-    slidesToShow: 4,
+    autoplaySpeed: 3000,
+    speed: 600,
+    slidesToShow: 6,
     slidesToScroll: 1,
     arrows: false,
     responsive: [
       {
-        breakpoint: 1280,
-        settings: { slidesToShow: 3 },
+        breakpoint: 1536, // 2xl
+        settings: { slidesToShow: 6 },
       },
       {
-        breakpoint: 1024,
+        breakpoint: 1280, // xl
+        settings: { slidesToShow: 5 },
+      },
+      {
+        breakpoint: 1024, // lg
+        settings: { slidesToShow: 4 },
+      },
+      {
+        breakpoint: 768, // md
         settings: { slidesToShow: 2 },
       },
       {
-        breakpoint: 640,
+        breakpoint: 640, // sm
         settings: { slidesToShow: 1 },
       },
     ],
   };
 
   return (
-    <div className="w-full px-4">
-      <Slider {...settings} className="slick-theme">
+    <div className="max-w-screen-2xl mx-auto px-2 sm:px-4">
+      <Slider {...settings}>
         {products.map((product) => (
-          <div key={product._id} className="px-2">
+          <div key={product._id} className="px-1">
             <ProductCard product={product} />
           </div>
         ))}

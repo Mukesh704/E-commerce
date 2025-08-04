@@ -15,9 +15,17 @@ const BottomBar = () => {
     navigate('/');
   };
 
+  // Scroll helpers
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="bg-black text-white px-6 py-3 flex justify-between items-center relative">
-      {/* Left Section: All Categories + About Us + Customer Service */}
+    <div className="bg-white px-6 py-3 flex justify-between items-center relative text-sm">
+      {/* Left Section: All Categories + Section Links */}
       <div className="flex items-center gap-6">
         {/* All Categories Dropdown */}
         <div
@@ -25,7 +33,7 @@ const BottomBar = () => {
           onMouseEnter={() => setShowCategories(true)}
           onMouseLeave={() => setShowCategories(false)}
         >
-          <div className="flex items-center gap-2 font-semibold cursor-pointer">
+          <div className="bg-black text-white hover:bg-blue-100 hover:text-black flex items-center gap-2 font-semibold cursor-pointer px-5 py-2 rounded-lg transition">
             <IoMenu />
             <span>All Categories</span>
           </div>
@@ -49,23 +57,48 @@ const BottomBar = () => {
           )}
         </div>
 
-        {/* Additional Links */}
-        <Link to="/about" className="hover:underline">
+        {/* Feature Section Links */}
+        <button
+          onClick={() => scrollToSection('best-sellers')}
+          className="font-semibold hover:text-gray-500 transition"
+        >
+          Best Sellers
+        </button>
+        <button
+          onClick={() => scrollToSection('deals')}
+          className="font-semibold hover:text-gray-500 transition"
+        >
+          Deals of the Day
+        </button>
+        <button
+          onClick={() => scrollToSection('new-arrivals')}
+          className="font-semibold hover:text-gray-500 transition"
+        >
+          New Arrivals
+        </button>
+        <button
+          onClick={() => scrollToSection('discounted')}
+          className="font-semibold hover:text-gray-500 transition"
+        >
+          Discounted Products
+        </button>
+
+        <Link to="/about" className="font-semibold hover:text-gray-500 transition">
           About Us
         </Link>
-        <Link to="/contact" className="hover:underline">
+        <Link to="/contact" className="font-semibold hover:text-gray-500 transition">
           Customer Service
         </Link>
       </div>
 
       {/* Right Section: Auth */}
-      <div className="flex items-center gap-4 text-sm">
+      <div className="flex items-center gap-4">
         {isAuthenticated ? (
-          <button onClick={handleLogout} className="hover:underline">
+          <button onClick={handleLogout} className="font-semibold hover:text-gray-500 transition">
             Logout
           </button>
         ) : (
-          <Link to="/login" className="hover:underline">
+          <Link to="/login" className="font-semibold hover:text-gray-500 transition">
             Sign In
           </Link>
         )}

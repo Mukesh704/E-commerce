@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/common/Header';
-import HeaderBottomBar from './components/common/HeaderBottomBar';
+import StickyHeader from './components/common/StickyHeader';
 import Footer from './components/common/Footer';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -25,9 +24,8 @@ import WishlistPage from './pages/WishlistPage';
 const App = () => {
   return (
     <>
-      <Header />
-      <HeaderBottomBar />
-      <main>
+      <StickyHeader />
+      <main className="pt-[120px]">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
