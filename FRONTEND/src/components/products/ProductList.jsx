@@ -23,7 +23,7 @@ const ProductList = ({ categoryId }) => {
 
   return (
     <div className="px-4 sm:px-6 lg:px-10">
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-1 gap-y-1">
         {filteredProducts.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}

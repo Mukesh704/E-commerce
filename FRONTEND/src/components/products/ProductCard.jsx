@@ -16,7 +16,7 @@ const ProductCard = ({ product }) => {
   const handleButtonClick = (e) => {
     e.stopPropagation();
     addToCart({
-      id: product._id, // fixed to ensure cart logic recognizes unique products
+      id: product._id,
       name: product.name,
       price: product.price,
       qty: 1,

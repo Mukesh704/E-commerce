@@ -9,9 +9,9 @@ const StickyHeader = () => {
   const controlHeader = () => {
     if (typeof window !== 'undefined') {
       if (window.scrollY < lastScrollY) {
-        setShowHeader(true); // scroll up → show header
+        setShowHeader(true);
       } else {
-        setShowHeader(false); // scroll down → hide header
+        setShowHeader(false);
       }
       setLastScrollY(window.scrollY);
     }

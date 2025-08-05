@@ -16,7 +16,7 @@ const Header = () => {
       <div className="bg-white py-2 px-6 flex items-center justify-between gap-6">
         {/* Left - Shop name */}
         <div className="text-2xl font-bold text-gray-800 whitespace-nowrap">
-          <Link to="/">ShopEase</Link>
+          <Link to="/">UrbanBasket</Link>
         </div>
 
         {/* Center - Search bar */}
