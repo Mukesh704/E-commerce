@@ -69,7 +69,7 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
 
-        <Button onClick={handleButtonClick} className="w-full text-sm py-2 mt-auto">
+        <Button onClick={handleButtonClick} className="w-full hover:bg-gray-300 hover:text-black text-sm py-2 mt-auto">
           Add to Cart
         </Button>
       </div>

@@ -12,7 +12,7 @@ const CartPage = () => {
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-3xl font-bold">Your Cart is Empty</h1>
         <Link to="/products">
-          <Button className="mt-6">Continue Shopping</Button>
+          <Button className="mt-6 hover:bg-gray-300 hover:text-black">Continue Shopping</Button>
         </Link>
       </div>
     );
@@ -76,7 +76,7 @@ const CartPage = () => {
             <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <Link to="/checkout">
-            <Button className="w-full mt-6">Proceed to Checkout</Button>
+            <Button className="w-full mt-6 hover:bg-gray-300 hover:text-black">Proceed to Checkout</Button>
           </Link>
         </div>
       </div>
