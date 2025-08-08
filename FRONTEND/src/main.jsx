@@ -8,12 +8,14 @@ import { CartProvider } from './contexts/CartContext.jsx'
 import { CategoryProvider } from './contexts/CategoryContext.jsx'
 import { WishlistProvider } from './contexts/WishlistContext'
 import { BrowserRouter } from 'react-router-dom';
+import ScrollToTop from './components/common/ScrollToTop.jsx'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <ProductProvider>
           <CategoryProvider>
