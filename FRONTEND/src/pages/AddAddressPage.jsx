@@ -1,6 +1,6 @@
-// src/pages/AddAddressPage.jsx
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { IoClose } from 'react-icons/io5';
 import api from '../services/api';
 import Button from '../components/common/Button';
 
@@ -30,7 +30,7 @@ const AddAddressPage = () => {
     e.preventDefault();
     try {
       await api.post('/address', formData);
-      navigate(returnTo); // Redirect to desired page
+      navigate(returnTo);
     } catch (error) {
       console.error('Failed to add address:', error);
       alert('Something went wrong. Please try again.');
@@ -38,7 +38,16 @@ const AddAddressPage = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded">
+    <div className="relative max-w-xl mx-auto p-6 bg-white shadow-md rounded">
+      {/* Cross Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="absolute top-4 right-4 hover:text-gray-500 text-black"
+        aria-label="Close"
+      >
+        <IoClose size={24} />
+      </button>
+
       <h1 className="text-2xl font-bold mb-4">Add New Address</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input name="address" onChange={handleChange} value={formData.address} placeholder="Address" className="w-full p-2 border rounded" required />
@@ -53,7 +62,7 @@ const AddAddressPage = () => {
           Set as default address
         </label>
 
-        <Button type="submit" className="bg-black text-white">Save Address</Button>
+        <Button type="submit" className="bg-black hover:bg-gray-300 text-white hover:text-black">Save Address</Button>
       </form>
     </div>
   );
