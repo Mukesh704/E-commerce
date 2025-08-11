@@ -20,6 +20,7 @@ import Contact from './pages/Contact';
 import FAQ from './pages/FAQ';
 import AddAddressPage from './pages/AddAddressPage';
 import WishlistPage from './pages/WishlistPage';
+import SearchResults from './pages/SearchResults';
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/add-address" element={<AddAddressPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
       </main>
       <Footer />

@@ -41,6 +41,10 @@ export const getProducts = (categoryId) => {
   return api.get('/products');
 };
 export const getProductById = (id) => api.get(`/products/${id}`);
+export const getProductsBulk = (ids) =>
+  api.post('/products/bulk', { ids });
+export const searchProducts = (query) => 
+  api.get(`/products/search?query=${encodeURIComponent(query)}`);
 
 // ===== User =====
 export const getUserProfile = () => api.get('/users/me');
