@@ -135,7 +135,7 @@ const ProfilePage = () => {
                 <div
                   key={addr._id}
                   onClick={() => handleAddressChange(addr._id)}
-                  className={`relative cursor-pointer border p-4 rounded-lg transition duration-200 group flex justify-between items-start ${isSelected ? 'bg-black text-white' : 'bg-gray-50 hover:bg-gray-100 text-gray-800'}`}
+                  className={`relative cursor-pointer shadow-md p-4 rounded-lg transition duration-200 group flex justify-between items-start ${isSelected ? 'bg-black text-white' : 'bg-gray-50 hover:bg-gray-100 text-gray-800'}`}
                 >
                   <div className="text-sm leading-snug flex-1">
                     {`${addr.address}, ${addr.city}, ${addr.state} - ${addr.postalCode}`}
