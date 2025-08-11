@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCategories } from '../../contexts/CategoryContext';
 import { IoMenu } from 'react-icons/io5';
 import { useAuth } from '../../contexts/AuthContext';
@@ -9,17 +9,22 @@ const BottomBar = () => {
   const [showCategories, setShowCategories] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  // Scroll helpers
+  // Scroll helper
   const scrollToSection = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname === '/') {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/', { state: { scrollTo: id } });
     }
   };
 
@@ -33,7 +38,7 @@ const BottomBar = () => {
           onMouseEnter={() => setShowCategories(true)}
           onMouseLeave={() => setShowCategories(false)}
         >
-          <div className="bg-black text-white hover:bg-blue-100 hover:text-black flex items-center gap-2 font-semibold cursor-pointer px-5 py-2 rounded-lg transition">
+          <div className="bg-black text-white hover:bg-gray-300 hover:text-black flex items-center gap-2 font-semibold cursor-pointer px-5 py-2 rounded-lg transition">
             <IoMenu />
             <span>All Categories</span>
           </div>
@@ -58,28 +63,16 @@ const BottomBar = () => {
         </div>
 
         {/* Feature Section Links */}
-        <button
-          onClick={() => scrollToSection('best-sellers')}
-          className="font-semibold hover:text-gray-500 transition"
-        >
+        <button onClick={() => scrollToSection('best-sellers')} className="font-semibold hover:text-gray-500 transition">
           Best Sellers
         </button>
-        <button
-          onClick={() => scrollToSection('deals')}
-          className="font-semibold hover:text-gray-500 transition"
-        >
+        <button onClick={() => scrollToSection('deals')} className="font-semibold hover:text-gray-500 transition">
           Deals of the Day
         </button>
-        <button
-          onClick={() => scrollToSection('new-arrivals')}
-          className="font-semibold hover:text-gray-500 transition"
-        >
+        <button onClick={() => scrollToSection('new-arrivals')} className="font-semibold hover:text-gray-500 transition">
           New Arrivals
         </button>
-        <button
-          onClick={() => scrollToSection('discounted')}
-          className="font-semibold hover:text-gray-500 transition"
-        >
+        <button onClick={() => scrollToSection('discounted')} className="font-semibold hover:text-gray-500 transition">
           Discounted Products
         </button>
 

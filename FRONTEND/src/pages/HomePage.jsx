@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import SlidingProductList from '../components/products/SlidingProductList';
 import BestSellersSection from '../components/products/BestSellersSection';
 import DealsOfTheDay from '../components/products/DealsOfTheDay';
@@ -10,6 +10,21 @@ import InfoBanner from '../components/common/InfoBanner';
 import heroImage from '../assets/images/home-ad.jpg';
 
 const HomePage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const sectionId = location.state.scrollTo;
+      const scrollTarget = document.getElementById(sectionId);
+
+      if (scrollTarget) {
+        setTimeout(() => {
+          scrollTarget.scrollIntoView({ behavior: 'smooth' });
+        }, 200);
+      }
+    }
+  }, [location]);
+
   return (
     <div>
       {/* Hero Section */}
