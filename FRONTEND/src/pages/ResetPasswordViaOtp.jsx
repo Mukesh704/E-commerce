@@ -11,13 +11,11 @@ const ResetPasswordViaOtp = () => {
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  // Autofill from location.state
   useEffect(() => {
     if (location.state?.email && location.state?.otp) {
       setEmail(location.state.email);
       setOtp(location.state.otp);
     } else {
-      // If no state passed, redirect to forgot-password
       navigate('/forgot-password');
     }
   }, [location.state, navigate]);
@@ -27,8 +25,6 @@ const ResetPasswordViaOtp = () => {
     try {
       const res = await resetPasswordViaOtp(email, otp, newPassword);
       setMessage(res.data.message);
-
-      // Redirect to login after short delay
       setTimeout(() => {
         navigate('/login');
       }, 2000);
@@ -38,34 +34,43 @@ const ResetPasswordViaOtp = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
-      <form onSubmit={handleReset} className="space-y-4 max-w-md">
-        <input
-          type="email"
-          className="border p-2 w-full rounded bg-gray-100"
-          value={email}
-          disabled
-        />
-        <input
-          type="text"
-          className="border p-2 w-full rounded bg-gray-100"
-          value={otp}
-          disabled
-        />
-        <input
-          type="password"
-          placeholder="New Password"
-          className="border p-2 w-full rounded"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="bg-purple-600 text-white px-4 py-2 rounded w-full">
+    <div className="flex items-center justify-center px-2 py-4 bg-gray-50 min-h-[50vh]">
+      <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-lg sm:text-xl font-bold mb-5 text-center">
           Reset Password
-        </button>
-      </form>
-      {message && <p className="mt-4 text-sm text-center text-gray-700">{message}</p>}
+        </h2>
+        <form onSubmit={handleReset} className="space-y-3">
+          <input
+            type="email"
+            className="border p-2 w-full rounded bg-gray-100 text-sm"
+            value={email}
+            disabled
+          />
+          <input
+            type="text"
+            className="border p-2 w-full rounded bg-gray-100 text-sm"
+            value={otp}
+            disabled
+          />
+          <input
+            type="password"
+            placeholder="New Password"
+            className="border p-2 w-full rounded text-sm"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="bg-black text-white hover:bg-gray-300 hover:text-black px-4 py-2 rounded w-full text-sm"
+          >
+            Reset Password
+          </button>
+        </form>
+        {message && (
+          <p className="mt-3 text-xs text-center text-gray-700">{message}</p>
+        )}
+      </div>
     </div>
   );
 };

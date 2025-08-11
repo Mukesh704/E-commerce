@@ -27,23 +27,54 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-8 border rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
-      {error && <p className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</p>}
+    <div className="max-w-md mx-auto mt-8 sm:mt-10 p-6 sm:p-8 rounded-lg shadow-lg bg-white px-4">
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6">
+        Create Account
+      </h2>
+      {error && (
+        <p className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm sm:text-base">
+          {error}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <Input name="name" placeholder="Full Name" value={userData.name} onChange={handleChange} />
+          <Input
+            name="name"
+            placeholder="Full Name"
+            value={userData.name}
+            onChange={handleChange}
+          />
         </div>
         <div className="mb-4">
-          <Input type="email" name="email" placeholder="Email" value={userData.email} onChange={handleChange} />
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={userData.email}
+            onChange={handleChange}
+          />
         </div>
         <div className="mb-6">
-          <Input type="password" name="password" placeholder="Password" value={userData.password} onChange={handleChange} />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={userData.password}
+            onChange={handleChange}
+          />
         </div>
-        <Button type="submit" className="w-full">Register</Button>
+        <Button
+          type="submit"
+          className="w-full bg-black text-white hover:bg-gray-300 hover:text-black py-2 sm:py-3 text-sm sm:text-base"
+        >
+          Register
+        </Button>
       </form>
-       <p className="text-center mt-4">
-        Already have an account? <Link to="/login" className="text-green-600 hover:underline">Log in</Link>
+      <p className="text-center mt-4 text-sm sm:text-base">
+        Already have an account?{' '}
+        <Link to="/login" className="text-green-600 hover:underline">
+          Log in
+        </Link>
       </p>
     </div>
   );

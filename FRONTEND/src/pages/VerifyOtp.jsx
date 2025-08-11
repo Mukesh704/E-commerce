@@ -9,13 +9,12 @@ const VerifyOtp = () => {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [message, setMessage] = useState('');
-  const [countdown, setCountdown] = useState(600); // 10 minutes
+  const [countdown, setCountdown] = useState(600);
   const [resendEnabled, setResendEnabled] = useState(false);
 
-  // Autofill email from state
   useEffect(() => {
   if (!location.state?.email) {
-    navigate('/forgot-password'); // redirect if email is missing
+    navigate('/forgot-password');
   } else {
     setEmail(location.state.email);
   }
@@ -40,7 +39,6 @@ const VerifyOtp = () => {
       const res = await verifyOtp(email, otp);
       setMessage(res.data.message);
 
-      // Navigate to reset password screen
       setTimeout(() => {
         navigate('/reset-password-otp', { state: { email, otp } });
       }, 2000);
@@ -62,7 +60,7 @@ const VerifyOtp = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+      <div className="max-w-md mx-auto bg-white p-6 rounded shadow-lg">
         <h2 className="text-2xl font-bold mb-4 text-center">Verify OTP</h2>
         <form onSubmit={handleVerify} className="space-y-4">
           <input
@@ -82,7 +80,7 @@ const VerifyOtp = () => {
           />
           <button
             type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded w-full"
+            className="bg-black text-white hover:bg-gray-300 hover:text-black px-4 py-2 rounded w-full"
           >
             Verify OTP
           </button>

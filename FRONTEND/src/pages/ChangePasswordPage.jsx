@@ -18,10 +18,9 @@ const ChangePasswordPage = () => {
       const res = await changePassword({ oldPass, newPass });
       setMessage(res.data.message);
 
-      // Auto-logout after short delay
       setTimeout(() => {
-        logout();                // clear token / context
-        navigate('/login');     // redirect to login
+        logout();
+        navigate('/login');
       }, 2000);
     } catch (err) {
       setMessage(err.response?.data?.error || 'Password change failed');
@@ -29,7 +28,7 @@ const ChangePasswordPage = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow">
+    <div className="max-w-md mx-auto mt-10 p-6 rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold mb-4 text-center">Change Password</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -51,7 +50,7 @@ const ChangePasswordPage = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded"
+          className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-300 hover:text-black"
         >
           Change Password
         </button>

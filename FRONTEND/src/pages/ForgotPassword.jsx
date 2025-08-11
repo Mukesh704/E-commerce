@@ -16,7 +16,6 @@ const ForgotPassword = () => {
       const res = await sendOtpToEmail(email);
       setMessage(res.data.message);
 
-      // Navigate to /verify-otp and pass the email via state
       navigate('/verify-otp', { state: { email } });
     } catch (err) {
       setMessage(err.response?.data?.error || 'Error sending OTP');
@@ -27,7 +26,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-xl">
         <h2 className="text-2xl font-bold mb-4 text-center">Forgot Password</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -40,7 +39,7 @@ const ForgotPassword = () => {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+            className="bg-black text-white hover:bg-gray-300 hover:text-black px-4 py-2 rounded w-full"
             disabled={loading}
           >
             {loading ? 'Sending OTP...' : 'Send OTP'}
