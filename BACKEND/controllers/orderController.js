@@ -99,7 +99,8 @@ async function getOrderController(req, res) {
 
       const order = await orderModel.findById(orderId)
         .populate('user', 'name email')
-        .populate('orderItems.product', 'name price');
+        .populate('orderItems.product', 'name price')
+        .populate('shippingAddress');
 
       if (!order) {
         return res.status(404).json({ success: false, error: 'Order not found' });

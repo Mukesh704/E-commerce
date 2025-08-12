@@ -6,7 +6,7 @@ import Button from '../common/Button';
 const OrderSummary = ({ children }) => {
     const { cartItems } = useCart();
     const subtotal = cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
-    const shipping = 0; // Assuming free shipping for now
+    const shipping = 40;
     const total = subtotal + shipping;
 
     return (

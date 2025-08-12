@@ -19,14 +19,12 @@ export const CartProvider = ({ children }) => {
       const existingItem = prevItems.find(item => item.id === newItem.id);
 
       if (existingItem) {
-        // Increment quantity
         return prevItems.map(item =>
           item.id === newItem.id
             ? { ...item, qty: item.qty + 1 }
             : item
         );
       } else {
-        // Add new item with qty defaulting to 1
         return [...prevItems, { ...newItem, qty: newItem.qty || 1 }];
       }
     });

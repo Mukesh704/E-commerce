@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getToken } from '../utils/auth';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const api = axios.create({
   baseURL: API_URL,
@@ -51,7 +51,7 @@ export const getUserProfile = () => api.get('/users/me');
 export const updateUserProfile = (profileData) => api.put('/users/me', profileData);
 
 // ===== Orders =====
-export const createOrder = (orderData) => api.post('/orders', orderData);
+export const createOrder = (orderData) => api.post('/orders/', orderData);
 export const getOrders = () => api.get('/users/orders');
 export const getOrderById = (id) => api.get(`/orders/${id}`);
 
