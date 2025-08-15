@@ -4,10 +4,21 @@ const app = express();
 require('dotenv').config();
 require('./db.js');
 
-const cors = require('cors');
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  process.env.FRONTEND_URL,
+  process.env.ADMIN_FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  // origin: ['http://localhost:5173', 'http://localhost:5174'],
-  origin: [process.env.FRONTEND_URL, process.env.ADMIN_FRONTEND_URL],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
@@ -43,5 +54,5 @@ app.use('/admin', adminServicesRouter)
 app.use('/contact', contackRouter)
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port: ${process.env.PORT}`)
+  console.log(`Server is running on port: ${process.env.PORT}`)
 })
