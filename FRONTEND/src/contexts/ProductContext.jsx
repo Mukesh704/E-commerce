@@ -37,7 +37,7 @@ export const ProductProvider = ({ children }) => {
     };
 
     fetchProducts();
-  }, [location.search]); // refetch when URL changes
+  }, [location.search]);
 
   const value = { products, loading, error };
 

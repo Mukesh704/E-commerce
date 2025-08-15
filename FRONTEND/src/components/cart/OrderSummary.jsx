@@ -38,7 +38,6 @@ const OrderSummary = ({ children }) => {
                 <span>₹{total.toFixed(2)}</span>
             </div>
 
-            {/* Any additional content, like payment form, can be passed as children */}
             {children}
         </div>
     );
