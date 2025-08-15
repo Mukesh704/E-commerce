@@ -39,8 +39,10 @@ const Footer = () => {
           <p className="text-gray-400 mb-4">
             A perfect place to find all your needs. High-quality products and unbeatable prices.
           </p>
-          <p className="text-gray-400">123 Shopping Lane, Bhilai, Chhattisgarh</p>
-          <p className="text-gray-400">support@urbanbasket.com</p>
+          <p className="text-gray-400">Bhilai, Chhattisgarh</p>
+          <p className="text-gray-400">mukeshdalai101@gmail.com</p>
+          <p className="text-gray-400">prashogeditz@gmail.com</p>
+          <p className="text-gray-400">dewanshpatel52@gmail.com</p>
           <p className="text-gray-400">Mon - Sat: 10:00 - 18:00</p>
         </div>
 

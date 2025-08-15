@@ -46,11 +46,11 @@ async function addCategoriesController(req, res) {
 
 async function categoryDisplay(req, res) {
     try {
-        const category1 = await categoryModel.findById('68356379ed480025b762b79d');
-        const category2 = await categoryModel.findById('686e3bbb14169f699d55647b');
-        const category3 = await categoryModel.findById('688db80144fa85552e528e51');
-        const category4 = await categoryModel.findById('688f41e6729ea6128980cc00');
-        const category5 = await categoryModel.findById('688db8b244fa85552e528e65');
+        const category1 = await categoryModel.findById('689d82e1fa4638bb22d89935');
+        const category2 = await categoryModel.findById('689d8120fa4638bb22d898f9');
+        const category3 = await categoryModel.findById('689d816cfa4638bb22d89908');
+        const category4 = await categoryModel.findById('689d8160fa4638bb22d89905');
+        const category5 = await categoryModel.findById('689d81c3fa4638bb22d89920');
 
         res.status(200).json({
             success: true,

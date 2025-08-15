@@ -10,9 +10,9 @@ import gamingImg from '../../assets/images/gaming.png';
 const imageMap = {
   Electronics: electronicsImg,
   Shoes: shoesImg,
-  Computers: computersImg,
+  Laptops: computersImg,
   'Mobile/Tablets': mobileTabletsImg,
-  Gaming: gamingImg,
+  'Toys & Games': gamingImg,
 };
 
 const CategoryDisplay = () => {
