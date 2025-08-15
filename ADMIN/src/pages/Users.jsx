@@ -5,7 +5,7 @@ import Loader from '../components/Loader';
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [toggling, setToggling] = useState(null); // ID of the user currently being toggled
+  const [toggling, setToggling] = useState(null);
 
   const fetchUsers = async () => {
     setLoading(true);

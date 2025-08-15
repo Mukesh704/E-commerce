@@ -21,8 +21,8 @@ export default function Dashboard() {
     ])
       .then(([statsRes, ordersRes, productsRes]) => {
         setStats(statsRes.data.response);
-        setRecent(ordersRes.data.response || []); // Full order data
-        setTopProducts(productsRes.data.response || []); // Full product data
+        setRecent(ordersRes.data.response || []);
+        setTopProducts(productsRes.data.response || []);
       })
       .catch((err) => {
         console.error("Dashboard load error:", err);
